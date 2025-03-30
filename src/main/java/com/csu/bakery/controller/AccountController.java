@@ -35,7 +35,19 @@ public class AccountController {
     public ResponseEntity<AccountResponse<?>> signup(
             @RequestParam String email,
             @RequestParam String username,
-            @RequestBody @Valid PasswordRequest request) {
+            @RequestBody @Valid PasswordRequest request,
+            BindingResult bindingResult) {
+        //参数校验
+        if (bindingResult.hasErrors()) {
+            String firstErrorMessage = bindingResult.getFieldErrors()
+                    .stream()
+                    .findFirst()
+                    .map(FieldError::getDefaultMessage)
+                    .orElse("请求参数无效");
+            return ResponseEntity.badRequest()
+                    .body(AccountResponse.error(AccountResponseCode.PASSWORD_INVALID, firstErrorMessage));
+        }
+
         try {
             //验证邮箱是否已注册
             if (accountService.getAccountByEmail(email) != null) {
