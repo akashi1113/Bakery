@@ -1,0 +1,37 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      persistent: true
+
+spring:
+  application:
+    name: Bakery
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23lirjaw83xkUao4ID
+            client-secret: d2b95ab12ebe5dc434ae4f956da03bf46b071411
+            redirect-uri: http://localhost:8080/login/oauth2/code/github
+            scope: user:email,read:user
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: amy20041113
+    url: jdbc:mysql://127.0.0.1:3306/dessert
+
+mybatis:
+  mapper-locations: classpath:mappers/*Mapper.xml
+  type-aliases-package: com.csu.bakery.model
+  configuration:
+    lazy-loading-enabled: false
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security.oauth2: TRACE
+    com.csu.bakery: debug
