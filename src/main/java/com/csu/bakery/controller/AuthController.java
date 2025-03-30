@@ -54,6 +54,7 @@ public class AuthController {
             data.setEmail(account.getEmail());
             data.setUsername(account.getUsername());
             data.setToken(token);
+            data.setLogin_type("email");
 
             //返回成功响应
             return ResponseEntity.ok()
@@ -84,6 +85,7 @@ public class AuthController {
             data.setUsername(account.getUsername());
             data.setEmail(account.getEmail());
             data.setToken(token);
+            data.setLogin_type("github");
 
             return ResponseEntity.ok(AccountResponse.success(AccountResponseCode.AUTH_SUCCESS, data));
         } catch (Exception e) {
