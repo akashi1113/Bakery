@@ -69,6 +69,7 @@ public class AccountResponse<T> {
         private Long userid;
         private String username;
         private String email;
+        private String login_type;
 
         public BasicResponse() {}
 
@@ -103,6 +104,14 @@ public class AccountResponse<T> {
         public void setEmail(String email) {
             this.email = email;
         }
+
+        public String getLogin_type() {
+            return login_type;
+        }
+
+        public void setLogin_type(String login_type) {
+            this.login_type = login_type;
+        }
     }
 
     //用户详细信息响应
@@ -118,6 +127,7 @@ public class AccountResponse<T> {
         private String addr2;
         private int VIPLevel;
         private String avatar_url;
+        private String login_type;
 
         public DetailResponse() {}
 
@@ -200,6 +210,14 @@ public class AccountResponse<T> {
         public void setAvatar_url(String avatar_url) {
             this.avatar_url = avatar_url;
         }
+
+        public String getLogin_type() {
+            return login_type;
+        }
+
+        public void setLogin_type(String login_type) {
+            this.login_type = login_type;
+        }
     }
 
     public int getCode() {
@@ -233,4 +251,5 @@ public class AccountResponse<T> {
     public void setErrors(Map<String, String> errors) {
         this.errors = errors;
     }
+
 }
