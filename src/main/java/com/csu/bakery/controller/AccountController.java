@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
-@CrossOrigin(origins = "http://localhost:5173")
+
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
@@ -73,6 +73,13 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(AccountResponse.errors(AccountResponseCode.SERVER_ERROR, null));
         }
+    }
+
+    //获取用户id
+    @GetMapping
+    public ResponseEntity<AccountResponse<?>> getUserId(@RequestHeader("Authorization") String token) {
+        Long userid=jwtUtil.extractUserId(token);
+        return ResponseEntity.ok(AccountResponse.success(AccountResponseCode.SUCCESS, userid));
     }
 
     //获取用户信息

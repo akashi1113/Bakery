@@ -8,15 +8,18 @@ import com.csu.bakery.config.JwtUtil;
 import com.csu.bakery.service.AccountService;
 import com.csu.bakery.service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -64,12 +67,41 @@ public class AuthController {
         } catch (AuthenticationException e) {
             //登录失败
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(AccountResponse.error(AccountResponseCode.AUTH_FAILED,null));
+                    .body(AccountResponse.errors(AccountResponseCode.AUTH_FAILED,null));
         } catch (Exception e) {
             //服务器错误
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(AccountResponse.error(AccountResponseCode.SERVER_ERROR,null));
+                    .body(AccountResponse.errors(AccountResponseCode.SERVER_ERROR,null));
         }
+    }
+
+    //忘记密码后重置密码
+    @PostMapping("/password")
+    public ResponseEntity<AccountResponse<?>> resetPasswordByEmail(
+            @PathVariable String email,
+            @RequestBody @Valid PasswordRequest request,
+            BindingResult bindingResult) {
+        //参数校验
+        if (bindingResult.hasErrors()) {
+            String firstErrorMessage = bindingResult.getFieldErrors()
+                    .stream()
+                    .findFirst()
+                    .map(FieldError::getDefaultMessage)
+                    .orElse("请求参数无效");
+            return ResponseEntity.badRequest()
+                    .body(AccountResponse.error(AccountResponseCode.PASSWORD_INVALID, firstErrorMessage));
+        }
+
+        Account account = accountService.getAccountByEmail(email);
+
+        if(account == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(AccountResponse.errors(AccountResponseCode.USER_NOT_FOUND,null));
+        }
+
+        //执行重置
+        accountService.resetPassword(account.getUserid(), request.getPassword());
+        return ResponseEntity.ok(AccountResponse.success(AccountResponseCode.PASSWORD_RESET_SUCCESS, null));
     }
 
     //使用github登录
@@ -90,7 +122,7 @@ public class AuthController {
             return ResponseEntity.ok(AccountResponse.success(AccountResponseCode.AUTH_SUCCESS, data));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(AccountResponse.error(AccountResponseCode.SERVER_ERROR,null));
+                    .body(AccountResponse.errors(AccountResponseCode.SERVER_ERROR,null));
         }
     }
 
