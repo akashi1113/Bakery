@@ -194,8 +194,7 @@ public class AccountController {
         //执行重置
         accountService.resetEmail(userid, newEmail);
         return ResponseEntity.ok(AccountResponse.success(
-                AccountResponseCode.EMAIL_RESET_SUCCESS,
-                Map.of("email", newEmail)));
+                AccountResponseCode.EMAIL_RESET_SUCCESS, newEmail));
     }
 
     //重置密码
