@@ -78,7 +78,7 @@ public class AccountController {
     //获取用户id
     @GetMapping
     public ResponseEntity<AccountResponse<?>> getUserId(@RequestHeader("Authorization") String token) {
-        Long userid=jwtUtil.extractUserId(token);
+        Long userid=jwtUtil.extractUserId(token.replace("Bearer ", ""));
         return ResponseEntity.ok(AccountResponse.success(AccountResponseCode.SUCCESS, userid));
     }
 
