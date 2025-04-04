@@ -33,10 +33,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    if ("/oauth2/authorization/github".equals(request.getServletPath())) {
-                        config.setAllowedOrigins(List.of("http://localhost:5173"));
-                        config.setAllowedMethods(List.of("GET"));
-                    }
+                    config.setAllowedOrigins(List.of("http://localhost:5173"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
                     return config;
                 }))
                 .authorizeHttpRequests(auth -> auth
