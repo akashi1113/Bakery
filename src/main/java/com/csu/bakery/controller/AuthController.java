@@ -107,15 +107,8 @@ public class AuthController {
         return ResponseEntity.ok(AccountResponse.success(AccountResponseCode.PASSWORD_RESET_SUCCESS, null));
     }
 
-    //跳转github登录
-    @GetMapping("/github")
-    public void redirectToGitHubAuth(HttpServletResponse response) throws IOException {
-        String authUrl = "http://localhost:8080/oauth2/authorization/github";
-        response.sendRedirect(authUrl);
-    }
-
     //处理github回调
-    @GetMapping("/success")
+    @GetMapping("/github")
     public ResponseEntity<AccountResponse<AccountResponse.BasicResponse>> handleOAuth2Callback(@RequestParam String token) {
         try {
             Long userid=jwtUtil.extractUserId(token);
