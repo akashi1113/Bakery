@@ -110,7 +110,7 @@ public class AuthController {
     //跳转github登录
     @GetMapping("/github")
     public void redirectToGitHubAuth(HttpServletResponse response) throws IOException {
-        String authUrl = "/oauth2/authorization/github";
+        String authUrl = "http://localhost:8080/oauth2/authorization/github";
         response.sendRedirect(authUrl);
     }
 
