@@ -56,7 +56,7 @@ public class SecurityConfig {
                             accountService.setLoginType(userid,"github");
 
                             String jwt = jwtUtil.generateToken(userid,username,account.getTokenVersion());
-                            response.sendRedirect("/auth/github?token=" + jwt);
+                            response.sendRedirect("/auth/success?token=" + jwt);
                         })
                 );
         return http.build();
