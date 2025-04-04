@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/oauth2/authorization/github")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService())
                         )
@@ -66,7 +67,7 @@ public class SecurityConfig {
                             accountService.setLoginType(userid,"github");
 
                             String jwt = jwtUtil.generateToken(userid,username,account.getTokenVersion());
-                            response.sendRedirect("/auth/success?token=" + jwt);
+                            response.sendRedirect("/auth/github?token=" + jwt);
                         })
                 );
         return http.build();
