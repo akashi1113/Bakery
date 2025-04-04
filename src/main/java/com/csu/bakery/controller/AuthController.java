@@ -8,6 +8,7 @@ import com.csu.bakery.config.JwtUtil;
 import com.csu.bakery.service.AccountService;
 import com.csu.bakery.service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -104,8 +107,15 @@ public class AuthController {
         return ResponseEntity.ok(AccountResponse.success(AccountResponseCode.PASSWORD_RESET_SUCCESS, null));
     }
 
-    //使用github登录
+    //跳转github登录
     @GetMapping("/github")
+    public void redirectToGitHubAuth(HttpServletResponse response) throws IOException {
+        String authUrl = "/oauth2/authorization/github";
+        response.sendRedirect(authUrl);
+    }
+
+    //处理github回调
+    @GetMapping("/success")
     public ResponseEntity<AccountResponse<AccountResponse.BasicResponse>> handleOAuth2Callback(@RequestParam String token) {
         try {
             Long userid=jwtUtil.extractUserId(token);
