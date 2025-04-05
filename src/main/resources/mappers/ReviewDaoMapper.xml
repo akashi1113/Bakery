@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.csu.dessert.persistence.ReviewDao">
+    <insert id="insertReview" parameterType="Review">
+        INSERT INTO review (userid,itemid,score,comment) VALUES (#{userid},#{itemid},#{score},#{comment})
+    </insert>
+
     <select id="getAllReviews" resultType="Review">
         SELECT r.*,a.username,i.name
         FROM review r
@@ -14,7 +18,7 @@
         SELECT * FROM review WHERE itemid = #{itemid}
     </select>
 
-    <select id="getReviewsByUser" parameterType="String" resultType="Review">
+    <select id="getReviewsByUser" parameterType="Long" resultType="Review">
         SELECT * FROM review WHERE userid = #{userid}
     </select>
 </mapper>
