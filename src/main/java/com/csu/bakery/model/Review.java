@@ -1,16 +1,16 @@
 package com.csu.bakery.model;
 
 public class Review {
-    private String userid;
+    private Long userid;
     private String itemid;
     private int score;
     private String comment;
 
-    public String getUserid() {
+    public Long getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(Long userid) {
         this.userid = userid;
     }
 
