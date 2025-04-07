@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.csu.bakery.persistence.CartDao">
-    <!-- 结果映射，将数据库字段映射到 Cart 对象 -->
     <resultMap id="cartResultMap" type="com.csu.bakery.model.Cart">
         <id property="cartId" column="cartid" />
         <result property="userId" column="userid"/>
@@ -26,8 +25,7 @@
         WHERE c.userid = #{userId}
     </select>
 
-    <!-- 根据用户ID查询购物车信息 -->
-    <select id="selectCartByUserId" resultMap="cartResultMap">
+    <select id="selectCartByUserId" parameterType="Long" resultMap="cartResultMap">
         SELECT
              cart.cartid,
              cart.subTotal,
@@ -37,21 +35,17 @@
             cartitem.totalPrice
         FROM
             cart
-        JOIN
+        LEFT JOIN
             cartitem ON cart.cartid = cartitem.cartid
         WHERE
             userid = #{userId}
     </select>
 
-    <!-- 插入购物车记录 -->
-    <!-- Ensure DB schema for 'subTotal' column supports decimal type -->
     <insert id="insertCart" useGeneratedKeys="true" keyProperty="cartId">
         INSERT INTO cart (userid, subTotal, totalQuantity)
         VALUES (#{userId}, #{subTotal}, #{totalQuantity})
     </insert>
 
-    <!-- 更新购物车信息 -->
-    <!-- Ensure DB schema for 'subTotal' column supports decimal type -->
     <update id="updateCart">
         UPDATE cart
         SET subTotal = #{subTotal},

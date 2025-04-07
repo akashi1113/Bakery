@@ -43,6 +43,11 @@ public class OrderAndCartResponse<T> {
         return new OrderAndCartResponse<>(OrderAndCartResponseCode.SUCCESS.getCode(), OrderAndCartResponseCode.SUCCESS.getMessage(),data);
     }
 
+    public static <T> OrderAndCartResponse<T> createForSuccess(String message, T data) {
+        return new OrderAndCartResponse<>(OrderAndCartResponseCode.SUCCESS.getCode(), message, data);
+    }
+
+
     public static <T> OrderAndCartResponse<T> error(int status, String message) {
         return new OrderAndCartResponse<>(status, message);
     }

@@ -9,5 +9,5 @@ public class CartItem {
     private String itemId;
     private Integer quantity;
     private Double totalPrice;
-    private double price;
+    private Double price;
 }

@@ -9,7 +9,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ReviewDao {
+    public int insertReview(Review review);
     public List<Review> getAllReviews();
     public List<Review> getReviewsByItem(String itemid);
-    public List<Review> getReviewsByUser(String userid);
+    public List<Review> getReviewsByUser(Long userid);
 }

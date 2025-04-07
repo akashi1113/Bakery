@@ -30,7 +30,6 @@ public class ProductController {
     public CommodityResponse<List<Product>> getProductListByCategory(@PathVariable("id") String categoryId){
         return productService.getProductListByCategory(categoryId);
     }
-
     @GetMapping("{id}")
     @ResponseBody
     public CommodityResponse<Product> getProduct(@PathVariable("id") String productId){

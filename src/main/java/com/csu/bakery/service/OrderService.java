@@ -6,7 +6,6 @@ import com.csu.bakery.model.LineItem;
 import com.csu.bakery.model.Cart;
 import com.csu.bakery.model.OrderInfo;
 import com.csu.bakery.persistence.CartDao;
-import com.csu.bakery.persistence.LineItemDao;
 import com.csu.bakery.persistence.OrderDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,30 +51,6 @@ public class OrderService {
      * @param userId 当前用户ID
      * @return OrderPrepareResponse 包含订单准备数据的 DTO 对象
      */
-//    public OrderPrepareResponse getOrderPreparationData(Long userId) {
-//        // 从购物车 DAO 中查询当前用户的购物车数据
-//        Cart cart = cartDao.selectCartByUserId(userId);
-//        if (cart == null) {
-//            throw new NoSuchElementException("购物车数据未找到");
-//        }
-//        // 假设 OrderPrepareResponse 内部包含购物车 ID、总数量、合计金额等字段
-//        OrderPrepareResponse response = new OrderPrepareResponse();
-////        response.setCartId(cart.getCartId());
-//        response.setTotalQuantity(cart.getTotalQuantity());
-//        response.setSubTotal(cart.getSubTotal());
-//        List<OrderItemResponse> items = lineItems.stream().map(Cart -> {
-//            OrderItemResponse itemResp = new OrderItemResponse();
-//            itemResp.setItemId(cart.getItemId());
-//            itemResp.setQuantity(cart.getQuantity());
-//            itemResp.setTotalPrice(cart.getTotalPrice());
-//            // 如有需要，可扩展：通过 ItemDao 查询商品详情（名称、图片等）并封装到响应 DTO 中
-//            return itemResp;
-//        }).collect(Collectors.toList());
-//        response.setOrderItems(items);
-//
-//        // 根据需要可以添加其他数据（如优惠券、配送选项等）
-//        return response;
-//    }
     public OrderPrepareResponse getOrderPreparationData(Long userId) {
         // 从购物车 DAO 中查询当前用户的购物车数据
         Cart cart = cartDao.selectCartByUserId(userId);

@@ -14,6 +14,10 @@ public class ReviewService {
     @Autowired
     private ReviewDao reviewDao;
 
+    public int insertReview(Review review) {
+        return reviewDao.insertReview(review);
+    }
+
     public List<Review> getAllReviews() {
         return reviewDao.getAllReviews();
     }
@@ -22,7 +26,7 @@ public class ReviewService {
         return reviewDao.getReviewsByItem(itemid);
     }
 
-    public List<Review> getReviewsByUser(String userid){
+    public List<Review> getReviewsByUser(Long userid){
         return reviewDao.getReviewsByUser(userid);
     }
 }
